@@ -1,0 +1,17 @@
+variable "application" {}
+variable "vpc_id" {}
+variable "db_user" {}
+variable "rds_name" {}
+variable "egress_rules" {}
+variable "ingress_rules" {}
+variable "db_engine" {}
+variable "db_engine_version" {}
+variable "db_port" {}
+variable "db_family_group" {}
+variable "db_storage_encrypted" {}
+variable "db_apply_immediately" {}
+variable "db_backup_retention_period" {}
+variable "db_instance_count" {}
+variable "db_instance_type" {}
+variable "serverless_config" {}
+variable "db_subnet_group_ids" {}
