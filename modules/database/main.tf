@@ -34,10 +34,10 @@ resource "random_password" "password" {
 }
 
 resource "aws_secretsmanager_secret" "this" {
-  name = "sm-rds-${var.application}-1"
+  name = "sm-rds-${var.application}-0"
 
   tags = {
-    Name = "sm-rds-${var.application}-1"
+    Name = "sm-rds-${var.application}-0"
   }
 }
 
