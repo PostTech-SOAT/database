@@ -1,25 +1,12 @@
-module "rds" {
-  source = "./modules/rds"
+module "rds_postgres" {
+  source = "./modules/database"
 
-  application = var.application
-  rds_name = "${var.application}"
-  db_apply_immediately = var.db_apply_immediately
-  db_backup_retention_period = var.db_backup_retention_period
-  db_engine = var.db_engine
-  db_engine_version =  var.db_engine_version
-  db_family_group =  var.db_family_group
-  db_instance_count =  var.db_instance_count
-  db_instance_type =  var.db_instance_type
-  db_port =  var.db_port
-  db_storage_encrypted =  var.db_storage_encrypted
-  db_user = var.db_user
-  vpc_id = data.aws_vpc.main.id
-  serverless_config = var.serverless_config
-  db_subnet_group_ids = data.aws_subnets.privates.ids
+  application            = var.application
+  vpc_id                 = data.aws_vpc.main.id
+  db_subnet_group_ids    = data.aws_subnets.privates.ids
+  random_password_config = var.random_password_config
+  database_config        = var.database_config
 
-  ingress_rules =  [  { from_port = "${var.db_port}", to_port = "${var.db_port}", protocol = "tcp", cidr_blocks = [for subnet in data.aws_subnet.each_private : subnet.cidr_block] }
-  ]
-  egress_rules = [
-    { from_port = "0", to_port = "0", protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
-  ]
+  ingress = [{ from_port = "${var.database_config.db_port}", to_port = "${var.database_config.db_port}", protocol = "tcp", cidr_blocks = [for subnet in data.aws_subnet.each_private : subnet.cidr_block] }]
+  egress  = [{ from_port = "0", to_port = "0", protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }]
 }

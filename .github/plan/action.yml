@@ -1,5 +1,5 @@
 name: "CI - Database"
-description: "Validar plano de subida para deploy de insfraestrutura de banco de dados"
+description: "Validar plano de subida para deploy de insfraestrutura base"
 inputs:
   terraform_version:
     description: "Versão do Terraform"
