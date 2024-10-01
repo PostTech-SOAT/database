@@ -69,15 +69,15 @@ runs:
       run: |
         terragrunt init --terragrunt-non-interactive --terragrunt-config ./terragrunt/${{ inputs.tfvars_file_name }}
 
-    # - name: Download Plan
-    #   id: download-plan
-    #   uses: dawidd6/action-download-artifact@v2
-    #   with:
-    #     github_token: ${{ inputs.github_token }}
-    #     workflow: plan.yaml
-    #     pr: ${{ inputs.pr_number }}
-    #     name: ${{ inputs.pr_number }}-tf-plan
-    #     path: ${{ inputs.terraform_directory }}
+    - name: Download Plan
+      id: download-plan
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{ inputs.github_token }}
+        workflow: plan.yaml
+        pr: ${{ inputs.pr_number }}
+        name: ${{ inputs.pr_number }}-tf-plan
+        path: ${{ inputs.terraform_directory }}
 
     - name: Terraform Apply
       id: apply
@@ -86,21 +86,21 @@ runs:
       run: |
         terragrunt apply --terragrunt-non-interactive --terragrunt-config ./terragrunt/${{ inputs.tfvars_file_name }} --auto-approve
 
-    # - name: Comment PR
-    #   id: comment
-    #   uses: actions/github-script@v4
-    #   with:
-    #     github-token: ${{ inputs.github_token }}
-    #     script: |
-    #       github.issues.createComment({
-    #         issue_number: ${{ inputs.pr_number }},
-    #         owner: context.repo.owner,
-    #         repo: context.repo.repo,
-    #         body: `
-    #           Terraform Apply:
+    - name: Comment PR
+      id: comment
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ inputs.github_token }}
+        script: |
+          github.issues.createComment({
+            issue_number: ${{ inputs.pr_number }},
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `
+              Terraform Apply:
 
-    #           \`\`\`
-    #           ${{ steps.apply.outputs.apply }}
-    #           \`\`\`
-    #         `
-    #       })
+              \`\`\`
+              ${{ steps.apply.outputs.apply }}
+              \`\`\`
+            `
+          })
