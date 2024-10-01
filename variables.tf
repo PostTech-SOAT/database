@@ -1,21 +1,29 @@
-variable "application" {
-  description = "Nome da aplicação usada para interpolar nomes de recursos e variavel environment"
-  type        = string
-}
-
 variable "aws_region" {
-  description = "Região AWS que será deployado os recursos"
-  type        = string
+  type = string
 }
 
-variable "db_user" {}
-variable "db_engine" {}
-variable "db_engine_version" {}
-variable "db_port" {}
-variable "db_family_group" {}
-variable "db_storage_encrypted" {}
-variable "db_apply_immediately" {}
-variable "db_backup_retention_period" {}
-variable "db_instance_count" {}
-variable "db_instance_type" {}
-variable "serverless_config" {}
+variable "application" {
+  type = string
+}
+
+variable "random_password_config" {
+  type = object({
+    length           = number
+    special          = bool
+    override_special = string
+  })
+}
+
+variable "database_config" {
+  type = object({
+    engine                          = string
+    engine_version                  = string
+    instance_class                  = string
+    allocated_storage               = number
+    storage_type                    = string
+    db_master_user                  = string
+    db_parameter_group_family       = string
+    apply_modifications_immediately = bool
+    db_port                         = number
+  })
+}

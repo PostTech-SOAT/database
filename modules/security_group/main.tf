@@ -1,9 +1,10 @@
 resource "aws_security_group" "this" {
   vpc_id      = var.vpc_id
-  description = var.description
+  name        = var.security_group_name
+  description = var.security_group_description
 
   dynamic "ingress" {
-    for_each = var.ingress_rules
+    for_each = var.ingress
     content {
       from_port   = ingress.value.from_port
       to_port     = ingress.value.to_port
@@ -13,7 +14,7 @@ resource "aws_security_group" "this" {
   }
 
   dynamic "egress" {
-    for_each = var.egress_rules
+    for_each = var.egress
     content {
       from_port   = egress.value.from_port
       to_port     = egress.value.to_port
@@ -21,12 +22,12 @@ resource "aws_security_group" "this" {
       cidr_blocks = egress.value.cidr_blocks
     }
   }
-  
-  lifecycle {
-    ignore_changes = [ingress]
-  }
+
+  # lifecycle {
+  #   ignore_changes = [ingress]
+  # }
 
   tags = {
-    Name = "sg-${var.name_tag}"
+    Name = "${var.security_group_name}"
   }
 }
